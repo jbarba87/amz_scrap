@@ -1,9 +1,14 @@
-from flask import Flask, render_template, request
+from flask import Flask, render_template, request, jsonify
+from flask_cors import CORS, cross_origin
+
 import requests
 from bs4 import BeautifulSoup
 app = Flask(__name__)
+cors = CORS(app)
+app.config['CORS_HEADERS'] = 'Content-Type'
 
 @app.route("/")
+@cross_origin()
 def hello():
   return render_template('main.html')
 
@@ -48,7 +53,12 @@ def cotiza():
         except:
           price = 'No se encontro el precio'
 
-    return render_template('producto.html', titulo = title.text, precio = price, imagen=txt_image)
+  # Return the json 
+  return jsonify(title=title.text, price=price, imagen=txt_image)
+
+  # Return the template html
+  #return render_template('producto.html', titulo = title.text, precio = price, imagen=txt_image)
     
-app.run(host='0.0.0.0', port= 8000)
+if __name__ == "__main__":
+  app.run(host='0.0.0.0', port= 4000, debug=True)
 
