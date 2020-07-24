@@ -14,17 +14,13 @@ def hello():
 
 
 @app.route("/cotiza", methods = ['GET'])
+@cross_origin()
 def cotiza():
   if request.method == 'GET':
   
     url = request.args['txtLink']
 
-    my_headers = {"Accept": "text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3", 
-        "Accept-Encoding": "gzip, deflate, br", 
-        "Accept-Language": "en-US,en;q=0.9", 
-        "Upgrade-Insecure-Requests": "1", 
-        "User-Agent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/75.0.3770.100 Safari/537.36"}
-
+    my_headers = {"User-Agent":"Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:66.0) Gecko/20100101 Firefox/66.0", "Accept-Encoding":"gzip, deflate", "Accept":"text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8", "DNT":"1","Connection":"close", "Upgrade-Insecure-Requests":"1"}
     response = requests.get(url, headers= my_headers)
     
     res = BeautifulSoup(response.text,"lxml");
@@ -33,7 +29,9 @@ def cotiza():
     img = res.find("img", {"id":"landingImage"})
     title = res.find("span", {"id":"productTitle"})
 
-
+    print("\n")
+    print(request)
+    print("\n")
     # Getting image from the string
     image_txt = img['data-a-dynamic-image']
     print(image_txt)
