@@ -29,9 +29,6 @@ def cotiza():
     img = res.find("img", {"id":"landingImage"})
     title = res.find("span", {"id":"productTitle"})
 
-    print("\n")
-    print(request)
-    print("\n")
     # Getting image from the string
     image_txt = img['data-a-dynamic-image']
     print(image_txt)
